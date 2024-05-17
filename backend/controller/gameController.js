@@ -32,15 +32,17 @@ const updateGame = asyncHandler(async (req, res) => {
 })
 
 const deleteGame = asyncHandler(async (req, res) => {
-    const game = await Game.findById(req.params.id)
+    const game = await Game.findById(req.params.id);
     if (!game) {
-
-        res.status(404)
-        throw new Error('Juego no encontrado')
+        res.status(404);
+        throw new Error('Juego no encontrado');
     }
-    await Game.deleteOne();
-    res.status(200).json({message: `Juego eliminado: ${req.params.id}`})
-})
+
+    // Asegúrate de especificar qué juego eliminar utilizando el ID.
+    await Game.deleteOne({_id: req.params.id});
+    res.status(200).json({message: `Juego eliminado: ${req.params.id}`});
+});
+
 
 module.exports = {
     getGames,
